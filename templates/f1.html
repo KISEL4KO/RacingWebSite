@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Racing Hub</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="global.css">
+  <style id="sections-styles">
+    :root {
+      --primary-color: #1f1e1e;
+      --secondary-color: #e10600;
+      --text-light: #ffffff;
+      --text-dark: #1a1a1a;
+      --gray-50: #fafafa;
+      --gray-100: #f5f5f5;
+      --gray-200: #e5e5e5;
+      --gray-300: #d4d4d4;
+      --gray-400: #a3a3a3;
+      --gray-500: #737373;
+      --gray-600: #525252;
+      --gray-700: #404040;
+      --gray-800: #262626;
+      --gray-900: #171717;
+      --spacing-xs: 8px;
+      --spacing-sm: 16px;
+      --spacing-md: 24px;
+      --spacing-lg: 32px;
+      --spacing-xl: 48px;
+      --spacing-xxl: 64px;
+      --border-radius: 12px;
+      --border-radius-sm: 8px;
+      --header-height: 64px;
+      --header-height-mobile: 56px;
+      --container-max: 1440px;
+      --container-padding: clamp(16px, 4vw, 40px);
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-dark);
+      background-color: var(--gray-50);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 var(--container-padding);
+      width: 100%;
+    }
+
+    /* CSS для section:Header */
+    #section-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      background: rgba(31, 30, 30, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #section-header.scrolled {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .site-header {
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .header-container {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .partner-logos {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 2vw, 25px);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .partner-logos img {
+      height: auto;
+      max-width: 100%;
+      transition: all 0.3s ease;
+      filter: brightness(1) contrast(1);
+      will-change: transform;
+    }
+
+    .partner-logos img:hover {
+      transform: translateY(-2px) scale(1.05);
+      filter: brightness(1.1) contrast(1.1);
+    }
+
+    .logo-f1 {
+      width: clamp(70px, 7vw, 120px);
+      min-width: 70px;
+    }
+    .logo-wec {
+      width: clamp(50px, 5vw, 85px);
+      min-width: 50px;
+    }
+    .logo-wrc {
+      width: clamp(60px, 6vw, 100px);
+      min-width: 60px;
+    }
+
+    /* CSS for section section:NewsSchedule */
+    #section-news-schedule {
+      padding-top: calc(var(--header-height) + var(--spacing-xl));
+      padding-bottom: var(--spacing-xxl);
+      background: linear-gradient(180deg, var(--gray-50) 0%, #ffffff 100%);
+    }
+
+    .news-schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: clamp(24px, 3vw, 50px);
+      align-items: start;
+    }
+
+    @media (min-width: 768px) {
+      .news-schedule-grid {
+        grid-template-columns: 1.2fr 1fr;
+      }
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      margin-bottom: var(--spacing-lg);
+      color: var(--gray-900);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .text-uppercase {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Minimalist News Block Styles */
+    .news-block {
+      background: white;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .news-block:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .news-header {
+      padding: var(--spacing-lg);
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .news-header h3 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .news-count {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--gray-500);
+      background: var(--gray-100);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-feature-settings: 'tnum';
+    }
+
+    .news-list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      flex: 1;
+    }
+
+    .news-item {
+      padding: var(--spacing-lg);
+      border-bottom: 1px solid var(--gray-100);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .news-item:last-child {
+      border-bottom: none;
+    }
+
+    .news-item:hover {
+      background: var(--gray-50);
+    }
+
+    .news-item:hover::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--secondary-color);
+    }
+
+    .news-index {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--secondary-color);
+      background: rgba(225, 6, 0, 0.1);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      margin-right: var(--spacing-sm);
+    }
+
+    .news-title {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--gray-800);
+      margin: 0;
+      display: inline;
+      font-weight: 500;
+    }
+
+    .news-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-xs);
+      font-size: 0.875rem;
+      color: var(--gray-500);
+    }
+
+    .news-time {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .news-divider {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gray-300);
+    }
+
+    .news-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-xxl) var(--spacing-lg);
+      color: var(--gray-500);
+      text-align: center;
+      flex: 1;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--gray-200);
+      border-top-color: var(--secondary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: var(--spacing-md);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Стили для карусели расписания */
+    .schedule-carousel-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .schedule-carousel-header {
+      padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+    }
+
+    .carousel-title {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .carousel-subtitle {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+      margin-top: 4px;
+    }
+
+    .carousel-nav {
+      display: flex;
+      gap: var(--spacing-xs);
+    }
+
+    .carousel-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--gray-300);
+      background: white;
+      color: var(--gray-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .carousel-btn:hover:not(:disabled) {
+      background: var(--secondary-color);
+      color: white;
+      border-color: var(--secondary-color);
+      transform: scale(1.05);
+    }
+
+    .carousel-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .carousel-track {
+      display: flex;
+      height: calc(100% - 90px);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      padding: var(--spacing-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+      overflow-y: auto;
+    }
+
+    .schedule-card {
+      background: white;
+      border-radius: var(--border-radius-sm);
+      padding: var(--spacing-md);
+      border-left: 4px solid var(--secondary-color);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .schedule-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .schedule-card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .race-round {
+      background: var(--secondary-color);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .race-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--gray-900);
+    }
+
+    .schedule-card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-sm);
+    }
+
+    .race-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-label {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-value {
+      font-weight: 500;
+      color: var(--gray-800);
+      font-size: 0.95rem;
+    }
+
+    .circuit-info {
+      grid-column: 1 / -1;
+      margin-top: var(--spacing-xs);
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: var(--spacing-md);
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-sm);
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gray-300);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: var(--secondary-color);
+      transform: scale(1.2);
+    }
+
+    .schedule-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--gray-400);
+      text-align: center;
+      padding: var(--spacing-xl);
+    }
+
+    .schedule-empty i {
+      font-size: 3rem;
+      margin-bottom: var(--spacing-md);
+      opacity: 0.5;
+    }
+
+    /* CSS for Latest Race Results Table */
+    .standings-table {
+      background: white;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+      margin-top: var(--spacing-lg);
+    }
+
+    .standings-header {
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    }
+
+    .standings-title {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .standings-title h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin: 0;
+    }
+
+    .standings-count {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--gray-500);
+      background: var(--gray-100);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .standings-filters {
+      display: flex;
+      gap: var(--spacing-xs);
+    }
+
+    .filter-btn {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--gray-300);
+      background: white;
+      color: var(--gray-700);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--secondary-color);
+      color: var(--secondary-color);
+    }
+
+    .filter-btn.active {
+      background: var(--secondary-color);
+      color: white;
+      border-color: var(--secondary-color);
+    }
+
+    .standings-content {
+      overflow-x: auto;
+    }
+
+    .standings-content table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .standings-content thead {
+      background: var(--gray-50);
+      border-bottom: 2px solid var(--gray-200);
+    }
+
+    .standings-content th {
+      padding: var(--spacing-md) var(--spacing-lg);
+      text-align: left;
+      font-weight: 600;
+      color: var(--gray-700);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .standings-content th:nth-child(3) {
+      text-align: center;
+    }
+
+    .standings-content th:nth-child(4) {
+      text-align: right;
+    }
+
+    .standings-content tbody tr {
+      border-bottom: 1px solid var(--gray-100);
+      transition: background-color 0.2s ease;
+    }
+
+    .standings-content tbody tr:hover {
+      background-color: var(--gray-50);
+    }
+
+    .standings-content tbody tr.first {
+      background: linear-gradient(90deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 215, 0, 0.02) 100%);
+      border-left: 4px solid #FFD700;
+    }
+
+    .standings-content tbody tr.second {
+      background: linear-gradient(90deg, rgba(192, 192, 192, 0.05) 0%, rgba(192, 192, 192, 0.02) 100%);
+      border-left: 4px solid #C0C0C0;
+    }
+
+    .standings-content tbody tr.third {
+      background: linear-gradient(90deg, rgba(205, 127, 50, 0.05) 0%, rgba(205, 127, 50, 0.02) 100%);
+      border-left: 4px solid #CD7F32;
+    }
+
+    .standings-content td {
+      padding: var(--spacing-md) var(--spacing-lg);
+      vertical-align: middle;
+    }
+
+    .position-cell {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+
+    .position-number {
+      width: 24px;
+      height: 24px;
+      background: var(--gray-100);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-feature-settings: 'tnum';
+    }
+
+    .podium-emoji {
+      font-size: 1.2rem;
+    }
+
+    .driver-cell {
+      font-weight: 500;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
+    .status-symbol {
+      font-size: 0.75rem;
+    }
+
+    .result-cell {
+      font-weight: 600;
+      color: var(--gray-900);
+      text-align: center;
+      font-feature-settings: 'tnum';
+    }
+
+    .points-cell {
+      font-weight: 700;
+      color: var(--gray-900);
+      text-align: right;
+      font-feature-settings: 'tnum';
+    }
+
+    /* Стили для статусов результатов */
+    .status-retired {
+      opacity: 0.7;
+    }
+
+    .status-retired .driver-cell,
+    .status-retired .result-cell,
+    .status-retired .points-cell {
+      color: var(--gray-500);
+    }
+
+    .status-dns .result-cell,
+    .status-wd .result-cell {
+      font-weight: 600;
+      color: #dc2626;
+    }
+
+    .status-fastest .result-cell {
+      position: relative;
+      font-weight: 700;
+    }
+
+    .status-fastest .result-cell::after {
+      content: 'FL';
+      font-size: 0.7rem;
+      background: #e10600;
+      color: white;
+      padding: 1px 4px;
+      border-radius: 2px;
+      margin-left: 4px;
+      vertical-align: super;
+    }
+
+    .gap-cell {
+      color: var(--gray-500);
+      text-align: right;
+      font-size: 0.875rem;
+      font-feature-settings: 'tnum';
+    }
+
+    .standings-footer {
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-top: 1px solid var(--gray-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--gray-50);
+    }
+
+    .leader-info {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .leader-badge {
+      background: var(--secondary-color);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .leader-name {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .leader-name strong {
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+
+    .leader-name span {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+    }
+
+    .standings-updated {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .standings-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-xxl) var(--spacing-lg);
+      color: var(--gray-400);
+      text-align: center;
+      background: white;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--gray-200);
+      margin-top: var(--spacing-lg);
+    }
+
+    .standings-empty i {
+      font-size: 3rem;
+      margin-bottom: var(--spacing-md);
+      opacity: 0.5;
+    }
+
+    .empty-subtitle {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+      margin-top: 4px;
+    }
+
+
+
+    /* CSS for section section:Watch */
+    #section-watch {
+      padding: var(--spacing-xxl) 0;
+      background-color: var(--gray-50);
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .watch-header {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .watch-image {
+      aspect-ratio: 16/9;
+      width: 100%;
+      max-height: 600px;
+    }
+
+    /* Адаптивность для таблицы */
+    @media (max-width: 768px) {
+      .standings-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+      }
+
+      .standings-filters {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .standings-content {
+        font-size: 0.875rem;
+      }
+
+      .standings-content th,
+      .standings-content td {
+        padding: var(--spacing-sm) var(--spacing-md);
+      }
+
+      .standings-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+      }
+
+      .status-fastest .result-cell::after {
+        font-size: 0.6rem;
+        padding: 1px 3px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .standings-content table {
+        min-width: 500px;
+      }
+
+      .standings-content {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .filter-btn {
+        padding: 4px 12px;
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Адаптивность карусели */
+    @media (max-width: 768px) {
+      .schedule-carousel-container {
+        height: 380px;
+      }
+
+      .schedule-card-body {
+        grid-template-columns: 1fr;
+      }
+
+      .carousel-title {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .schedule-carousel-container {
+        height: 350px;
+      }
+
+      .schedule-card {
+        padding: var(--spacing-sm);
+      }
+    }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 767px) {
+      :root {
+        --header-height: 56px;
+      }
+
+      .site-header {
+        height: var(--header-height-mobile);
+      }
+
+      #section-news-schedule {
+        padding-top: calc(var(--header-height-mobile) + var(--spacing-lg));
+      }
+
+      .news-schedule-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .partner-logos {
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .section-title {
+        text-align: center;
+      }
+
+      .watch-header {
+        justify-content: center;
+      }
+
+      .news-header {
+        padding: var(--spacing-md);
+      }
+
+      .news-item {
+        padding: var(--spacing-md);
+      }
+
+      .news-title {
+        font-size: 0.9375rem;
+      }
+    }
+
+    /* Tablet-specific adjustments */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .news-schedule-grid {
+        gap: 30px;
+      }
+
+      .schedule-column {
+        gap: 40px;
+      }
+    }
+  </style>
+  <script src="global.js" defer></script>
+</head>
+<body>
+  <section id="section-header">
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="partner-logos">
+          <a href="/f1"><img src="/static/images/ddc51e3608407ccb78a47922c99ed5f70eb871f3.png"
+               alt="Formula 1 Logo"
+               class="logo-f1"
+               data-src="/static/images/ddc51e3608407ccb78a47922c99ed5f70eb871f3.png"></a>
+          <a href="/wec"><img src="/static/images/bf6d629fbecbf1dbeebdcc09244586864459a019.png"
+               alt="World Endurance Championship Logo"
+               class="logo-wec"
+               data-src="/static/images/bf6d629fbecbf1dbeebdcc09244586864459a019.png"></a>
+          <a href="wrc"><img src="/static/images/5c6f4e9d8af28404fc2546dc82f04456e441817e.png"
+               alt="World Rally Championship Logo"
+               class="logo-wrc"
+               data-src="/static/images/5c6f4e9d8af28404fc2546dc82f04456e441817e.png"></a>
+        </div>
+      </div>
+    </header>
+  </section>
+
+  <section id="section-news-schedule">
+    <div class="container">
+      <div class="news-schedule-grid">
+        <!-- Left Column: News -->
+        <div class="news-column">
+          <h2 class="section-title">News</h2>
+
+          <div class="news-block">
+            <div class="news-header">
+              <h3><i class="fas fa-newspaper" style="color: var(--secondary-color);"></i> Racing News</h3>
+              {% if news %}
+              <span class="news-count">{{ news|length }} stories</span>
+              {% endif %}
+            </div>
+
+            <div class="news-content">
+              {% if news %}
+              <ul class="news-list">
+                {% for item in news %}
+                <li class="news-item">
+                  <span class="news-index">{{ loop.index }}</span>
+                  <p class="news-title">{{ item }}</p>
+                  <div class="news-meta">
+                    <span class="news-time">
+                      <i class="far fa-clock"></i>
+                    </span>
+                    <div class="news-divider"></div>
+                    <span>Formula 1</span>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <div class="news-loading">
+                <div class="loading-spinner"></div>
+                <p>Loading news...</p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Schedule & Results -->
+        <div class="schedule-column">
+          <div class="schedule-block">
+            <h2 class="section-title text-uppercase">SCHEDULE</h2>
+
+            <!-- Карусель расписания -->
+            <div class="schedule-carousel-container">
+              <div class="schedule-carousel-header">
+                <div>
+                  <div class="carousel-title">F1 2026 Calendar</div>
+                  <div class="carousel-subtitle">Race schedule & details</div>
+                </div>
+                <div class="carousel-nav">
+                  <button class="carousel-btn prev-btn" aria-label="Previous slide">
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+                  <button class="carousel-btn next-btn" aria-label="Next slide">
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="carousel-track" id="carousel-track">
+                {% if schedule %}
+                  {% for i in range(0, schedule|length, 3) %}
+                    <div class="carousel-slide" data-slide="{{ loop.index0 }}">
+                      {% for race in schedule[i:i+3] %}
+                      <div class="schedule-card">
+                        <div class="schedule-card-header">
+                          <div class="race-round">{{ race.round or loop.index }}</div>
+                          <div class="race-name">{{ race.gp }}</div>
+                        </div>
+                        <div class="schedule-card-body">
+                          <div class="race-info">
+                            <div class="info-label">Date</div>
+                            <div class="info-value">{{ race.date or "TBC" }}</div>
+                          </div>
+                          <div class="race-info circuit-info">
+                            <div class="info-label">Circuit</div>
+                            <div class="info-value">{{ race.circuit }}</div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <div class="carousel-slide">
+                    <div class="schedule-empty">
+                      <i class="fas fa-calendar-alt"></i>
+                      <p>Schedule loading...</p>
+                      <p class="carousel-subtitle">Fetching 2026 F1 calendar</p>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="carousel-dots" id="carousel-dots">
+                <!-- Точки будут генерироваться JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <div class="results-block">
+            <h2 class="section-title">Latest Race Results</h2>
+
+            {% if last_race_results and last_race_results.results %}
+            <div class="standings-table">
+                <div class="standings-header">
+                    <div class="standings-title">
+                        <h3><i class="fas fa-flag-checkered" style="color: #e10600;"></i> {{ last_race_results.race_name }}</h3>
+                        <span class="standings-count">{{ last_race_results.results|length }} drivers</span>
+                    </div>
+                    <div class="standings-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="podium">Podium</button>
+                        <button class="filter-btn" data-filter="points">Points</button>
+                    </div>
+                </div>
+
+                <div class="standings-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="60">Pos</th>
+                                <th>Driver</th>
+                                <th width="100">Result</th>
+                                <th width="100">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in last_race_results.results %}
+                            {% set pos = loop.index %}
+                            {% set driver_name = result.driver %}
+                            {% set race_result = result.last_race_result %}
+                            {% set points = result.points %}
+
+                            {# Определяем классы для строки #}
+                            {% set row_class = "" %}
+                            {% if pos == 1 %}
+                                {% set row_class = "first" %}
+                            {% elif pos == 2 %}
+                                {% set row_class = "second" %}
+                            {% elif pos == 3 %}
+                                {% set row_class = "third" %}
+                            {% endif %}
+
+                            {# Определяем статус результата #}
+                            {% set status_class = "" %}
+                            {% set status_symbol = "" %}
+                            {% set result_display = race_result %}
+
+                            {% if race_result == "Ret" %}
+                                {% set status_class = "status-retired" %}
+                                {% set status_symbol = "🔴" %}
+                                {% set result_display = "DNF" %}
+                            {% elif race_result == "DNS" %}
+                                {% set status_class = "status-dns" %}
+                                {% set status_symbol = "⛔" %}
+                            {% elif race_result == "WD" %}
+                                {% set status_class = "status-wd" %}
+                                {% set status_symbol = "🚫" %}
+                            {% elif "†" in race_result %}
+                                {% set status_class = "status-fastest" %}
+                                {% set status_symbol = "⚡" %}
+                            {% endif %}
+
+                            {# Эмодзи для подиума #}
+                            {% set podium_emoji = "" %}
+                            {% if pos == 1 %}
+                                {% set podium_emoji = "🥇" %}
+                            {% elif pos == 2 %}
+                                {% set podium_emoji = "🥈" %}
+                            {% elif pos == 3 %}
+                                {% set podium_emoji = "🥉" %}
+                            {% endif %}
+
+                            <tr class="{{ row_class }} {{ status_class }}" data-position="{{ pos }}" data-points="{{ points if points.isdigit() else 0 }}">
+                                <td class="position-cell">
+                                    <span class="position-number">{{ pos }}</span>
+                                    <span class="podium-emoji">{{ podium_emoji }}</span>
+                                </td>
+                                <td class="driver-cell">
+                                    <span class="driver-name">{{ driver_name }}</span>
+                                    {% if status_symbol %}
+                                    <span class="status-symbol">{{ status_symbol }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="result-cell {{ status_class }}">
+                                    {{ result_display }}
+                                </td>
+                                <td class="points-cell">{{ points }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="standings-footer">
+                    <div class="leader-info">
+                        <div class="leader-badge">
+                            <i class="fas fa-trophy"></i>
+                            Race Winner
+                        </div>
+                        <div class="leader-name">
+                            {% if last_race_results.results %}
+                            <strong>{{ last_race_results.results[0].driver }}</strong>
+                            <span>{{ last_race_results.results[0].last_race_result }} • {{ last_race_results.results[0].points }} points</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="standings-updated">
+                        <i class="far fa-clock"></i>
+                        Latest race results
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="standings-empty">
+                <i class="fas fa-flag-checkered"></i>
+                <p>Race results loading...</p>
+                <p class="empty-subtitle">Fetching latest F1 race data</p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="section-watch">
+    <div class="container">
+      <div class="watch-header">
+        <h2 class="section-title">Watch</h2>
+      </div>
+      <div class="placeholder-box watch-image" role="img" aria-label="Watch racing content">
+        {% if video %}
+        <iframe class="placeholder-box watch-image" src="{{ video }}" style="border: none; width: 100%; height: 100%; min-height: 400px;" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+        {% else %}
+        <div class="schedule-empty">
+          <i class="fas fa-video"></i>
+          <p>Video content loading...</p>
+          <p class="carousel-subtitle">Racing highlights will appear here</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Header scroll effect
+      const header = document.getElementById('section-header');
+      const siteHeader = document.querySelector('.site-header');
+
+      function updateHeader() {
+        const scrollPosition = window.scrollY;
+        const isMobile = window.innerWidth <= 767;
+
+        if (scrollPosition > 50) {
+          header.classList.add('scrolled');
+          if (isMobile) {
+            siteHeader.style.height = '48px';
+          } else {
+            siteHeader.style.height = '56px';
+          }
+        } else {
+          header.classList.remove('scrolled');
+          if (isMobile) {
+            siteHeader.style.height = 'var(--header-height-mobile)';
+          } else {
+            siteHeader.style.height = 'var(--header-height)';
+          }
+        }
+      }
+
+      window.addEventListener('scroll', updateHeader);
+      window.addEventListener('resize', updateHeader);
+      updateHeader();
+
+      // Карусель расписания
+      const carouselTrack = document.getElementById('carousel-track');
+      const prevBtn = document.querySelector('.prev-btn');
+      const nextBtn = document.querySelector('.next-btn');
+      const carouselDots = document.getElementById('carousel-dots');
+
+      let currentSlide = 0;
+      let totalSlides = 0;
+      let slides = [];
+
+      function initCarousel() {
+        slides = document.querySelectorAll('.carousel-slide');
+        totalSlides = slides.length;
+
+        if (totalSlides === 0) return;
+
+        // Создаем точки навигации
+        carouselDots.innerHTML = '';
+        for (let i = 0; i < totalSlides; i++) {
+          const dot = document.createElement('div');
+          dot.className = 'carousel-dot';
+          if (i === 0) dot.classList.add('active');
+          dot.addEventListener('click', () => goToSlide(i));
+          carouselDots.appendChild(dot);
+        }
+
+        updateButtons();
+      }
+
+      function goToSlide(slideIndex) {
+        if (slideIndex < 0 || slideIndex >= totalSlides || !slides[slideIndex]) return;
+
+        currentSlide = slideIndex;
+        const slideWidth = slides[0].offsetWidth;
+        carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+
+        // Обновляем активную точку
+        document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentSlide);
+        });
+
+        updateButtons();
+      }
+
+      function nextSlide() {
+        if (currentSlide < totalSlides - 1) {
+          goToSlide(currentSlide + 1);
+        }
+      }
+
+      function prevSlide() {
+        if (currentSlide > 0) {
+          goToSlide(currentSlide - 1);
+        }
+      }
+
+      function updateButtons() {
+        prevBtn.disabled = currentSlide === 0;
+        nextBtn.disabled = currentSlide === totalSlides - 1;
+      }
+
+      // Добавляем обработчики событий
+      if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+      if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+      // Автоматическая прокрутка
+      let autoScrollInterval;
+
+      function startAutoScroll() {
+        if (totalSlides <= 1) return;
+
+        autoScrollInterval = setInterval(() => {
+          if (currentSlide < totalSlides - 1) {
+            nextSlide();
+          } else {
+            goToSlide(0);
+          }
+        }, 5000); // 5 секунд
+      }
+
+      function stopAutoScroll() {
+        clearInterval(autoScrollInterval);
+      }
+
+      // Инициализируем карусель
+      initCarousel();
+
+      // Запускаем автоматическую прокрутку
+      startAutoScroll();
+
+      // Останавливаем автопрокрутку при наведении
+      const carouselContainer = document.querySelector('.schedule-carousel-container');
+      if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', stopAutoScroll);
+        carouselContainer.addEventListener('mouseleave', startAutoScroll);
+        carouselContainer.addEventListener('touchstart', stopAutoScroll);
+        carouselContainer.addEventListener('touchend', startAutoScroll);
+      }
+
+      // Swipe для мобильных устройств
+      let startX = 0;
+      let endX = 0;
+
+      if (carouselTrack) {
+        carouselTrack.addEventListener('touchstart', (e) => {
+          startX = e.touches[0].clientX;
+        });
+
+        carouselTrack.addEventListener('touchmove', (e) => {
+          endX = e.touches[0].clientX;
+        });
+
+        carouselTrack.addEventListener('touchend', () => {
+          const diff = startX - endX;
+          const threshold = 50;
+
+          if (Math.abs(diff) > threshold) {
+            if (diff > 0) {
+              nextSlide();
+            } else {
+              prevSlide();
+            }
+          }
+        });
+      }
+
+      // Фильтрация таблицы результатов последней гонки
+      document.querySelectorAll('.filter-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          // Убираем активный класс со всех кнопок
+          document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+          });
+
+          // Добавляем активный класс текущей кнопке
+          this.classList.add('active');
+
+          const filter = this.dataset.filter;
+          const rows = document.querySelectorAll('.standings-content tbody tr');
+
+          rows.forEach(row => {
+            const points = parseInt(row.dataset.points) || 0;
+            const position = parseInt(row.dataset.position) || 0;
+            let showRow = true;
+
+            switch(filter) {
+              case 'podium':
+                showRow = position <= 3;
+                break;
+              case 'points':
+                showRow = points > 0;
+                break;
+              default:
+                showRow = true;
+            }
+
+            row.style.display = showRow ? '' : 'none';
+          });
+        });
+      });
+
+      // Ресайз окна
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          goToSlide(currentSlide);
+        }, 250);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>About Us - Racing Series</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <style>
+        /* Базовые стили и сброс */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Анимация появления страницы (упрощенная) */
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .about-section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #000;
+            animation: pageEnter 0.8s ease-out forwards;
+        }
+
+        /* Backgrounds - адаптивный */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.8) 100%);
+        }
+
+        /* Header - адаптивный */
+        .site-header {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            background-color: rgba(31, 30, 30, 0.95);
+            padding: 15px 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(15px, 4vw, 40px);
+            flex-wrap: wrap;
+        }
+
+        .logo-link {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-link:hover {
+            transform: scale(1.05);
+        }
+
+        .logo {
+            height: auto;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .f1-logo { max-width: 120px; }
+        .wec-logo { max-width: 80px; }
+        .wrc-logo { max-width: 100px; }
+
+        /* Content Wrapper - адаптивный */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            min-height: calc(100vh - 80px);
+            padding: clamp(20px, 5vw, 60px) clamp(20px, 5vw, 75px);
+            background-color: rgba(31, 30, 30, 0.85);
+            margin-top: 0;
+            backdrop-filter: blur(5px);
+        }
+
+        .content-inner {
+            max-width: min(1400px, 95%);
+            margin: 0 auto;
+        }
+
+        /* Typography - адаптивный */
+        .page-title {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            color: #ffffff;
+            margin: 0 0 clamp(30px, 4vw, 50px) 0;
+            text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
+        }
+
+        .text-block {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
+            line-height: 1.6;
+            color: #ffffff;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+        }
+
+        .text-block p {
+            margin-bottom: clamp(15px, 2vw, 25px);
+        }
+
+        .list-intro {
+            margin-bottom: clamp(10px, 1.5vw, 20px) !important;
+            font-weight: 600;
+        }
+
+        .feature-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: clamp(20px, 3vw, 30px) 0;
+        }
+
+        .feature-list li {
+            margin-bottom: clamp(10px, 1.5vw, 15px);
+            padding-left: clamp(25px, 3vw, 35px);
+            position: relative;
+            font-size: clamp(1rem, 1.3vw, 1.3rem);
+        }
+
+        .feature-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #ff0000;
+            font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+        }
+
+        /* Кнопка навигации - адаптивная */
+        .home-button {
+            position: fixed;
+            top: clamp(15px, 3vw, 25px);
+            left: clamp(15px, 3vw, 25px);
+            z-index: 100;
+            background: rgba(31, 30, 30, 0.95);
+            color: white;
+            padding: clamp(8px, 1.5vw, 12px) clamp(15px, 2.5vw, 20px);
+            border-radius: clamp(20px, 3vw, 30px);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .home-button:hover {
+            background: rgba(255, 0, 0, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .home-button::before {
+            content: '←';
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+        }
+
+        /* Адаптивные точки останова */
+        /* Телефоны (портретная ориентация) */
+        @media (max-width: 480px) {
+            .site-header {
+                padding: 12px 15px;
+            }
+
+            .logos-container {
+                gap: 10px;
+            }
+
+            .f1-logo { max-width: 80px; }
+            .wec-logo { max-width: 60px; }
+            .wrc-logo { max-width: 70px; }
+
+            .content-wrapper {
+                padding: 20px 15px;
+            }
+
+            .home-button {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Телефоны (альбомная ориентация) и маленькие планшеты */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .site-header {
+                padding: 15px 20px;
+            }
+
+            .logos-container {
+                gap: 20px;
+            }
+
+            .f1-logo { max-width: 100px; }
+            .wec-logo { max-width: 70px; }
+            .wrc-logo { max-width: 85px; }
+
+            .page-title {
+                font-size: 3rem;
+            }
+        }
+
+        /* Планшеты и маленькие ноутбуки */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .content-wrapper {
+                padding: 40px 50px;
+            }
+
+            .page-title {
+                font-size: 3.5rem;
+            }
+
+            .text-block {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Большие экраны */
+        @media (min-width: 1025px) and (max-width: 1440px) {
+            .content-wrapper {
+                padding: 50px 60px;
+            }
+        }
+
+        /* Очень большие экраны */
+        @media (min-width: 1441px) {
+            .content-inner {
+                max-width: 1400px;
+            }
+
+            .page-title {
+                font-size: 5rem;
+            }
+
+            .text-block {
+                font-size: 1.6rem;
+                max-width: 900px;
+            }
+        }
+
+        /* Ориентация устройства */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .content-wrapper {
+                min-height: auto;
+                padding: 30px 40px;
+            }
+
+            .page-title {
+                margin-bottom: 20px;
+                font-size: 2.5rem;
+            }
+
+            .text-block {
+                font-size: 1.1rem;
+            }
+
+            .feature-list {
+                margin: 15px 0;
+            }
+
+            .feature-list li {
+                margin-bottom: 8px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Поддержка темной темы */
+        @media (prefers-color-scheme: dark) {
+            .content-wrapper {
+                background-color: rgba(20, 20, 20, 0.9);
+            }
+
+            .site-header {
+                background-color: rgba(20, 20, 20, 0.95);
+            }
+        }
+
+        /* Поддержка редукции движения */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .about-section {
+                animation: none;
+            }
+        }
+
+        /* Улучшение читаемости для плохого зрения */
+        @media (prefers-contrast: high) {
+            .text-block,
+            .page-title {
+                color: #fff;
+                text-shadow: 0 0 3px #000;
+            }
+
+            .feature-list li::before {
+                color: #ff5555;
+            }
+        }
+
+        /* Поддержка тач-устройств */
+        @media (hover: none) and (pointer: coarse) {
+            .home-button {
+                min-height: 44px; /* Минимальный размер для касания */
+                min-width: 44px;
+            }
+
+            .logo-link {
+                padding: 5px; /* Увеличение области касания */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Кнопка возврата на главную -->
+    <a href="{{ url_for('index') }}" class="home-button">Back to Home</a>
+
+    <section id="about-us" class="about-section">
+        <!-- Background Layer -->
+        <div class="bg-layer">
+             <video class="bg-image" autoplay muted loop playsinline>
+    <source src="/static/images/bg.mp4" type="video/mp4">
+</video>
+            <div class="bg-overlay"></div>
+        </div>
+
+        <!-- Header / Top Bar -->
+        <header class="site-header">
+            <div class="logos-container">
+                <a href="/f1" class="logo-link">
+                    <img src="{{ url_for('static', filename='images/ddc51e3608407ccb78a47922c99ed5f70eb871f3.png') }}"
+                         alt="F1 Logo"
+                         class="logo f1-logo">
+                </a>
+                <a href="/wec" class="logo-link">
+                    <img src="{{ url_for('static', filename='images/bf6d629fbecbf1dbeebdcc09244586864459a019.png') }}"
+                         alt="WEC Logo"
+                         class="logo wec-logo">
+                </a>
+                <a href="/wrc" class="logo-link">
+                    <img src="{{ url_for('static', filename='images/5c6f4e9d8af28404fc2546dc82f04456e441817e.png') }}"
+                         alt="WRC Logo"
+                         class="logo wrc-logo">
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="content-wrapper">
+            <div class="content-inner">
+                <h1 class="page-title">About us</h1>
+
+                <div class="text-block">
+                    <p>This website is designed for fans of the F1, WEC, and WRC racing series.</p>
+                    <p>Clicking on any racing logo will take you directly to the dedicated section for that championship.</p>
+                    <p class="list-intro">On this site, you can:</p>
+                    <ul class="feature-list">
+                        <li>Read the latest news about your favorite racing series</li>
+                        <li>View the complete race schedule and upcoming events</li>
+                        <li>Check tournament standings and latest race results</li>
+                        <li>Watch races online</li>
+                    </ul>
+                    <p>Our platform provides comprehensive coverage of all major motorsport events, ensuring you never miss a moment of the action.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Динамическая адаптация для разных устройств
+        document.addEventListener('DOMContentLoaded', function() {
+            // Функция для проверки типа устройства
+            function getDeviceType() {
+                const width = window.innerWidth;
+                if (width <= 480) return 'mobile';
+                if (width <= 768) return 'tablet';
+                if (width <= 1024) return 'laptop';
+                return 'desktop';
+            }
+
+            // Адаптация размера шрифта в зависимости от устройства
+            function adjustFontSizes() {
+                const device = getDeviceType();
+                const html = document.documentElement;
+
+                switch(device) {
+                    case 'mobile':
+                        html.style.fontSize = '14px';
+                        break;
+                    case 'tablet':
+                        html.style.fontSize = '15px';
+                        break;
+                    default:
+                        html.style.fontSize = '16px';
+                }
+            }
+
+            // Адаптация фонового изображения
+            function adjustBackground() {
+                const bgLayer = document.querySelector('.bg-layer');
+                const device = getDeviceType();
+
+                if (device === 'mobile' && window.innerHeight < 500) {
+                    bgLayer.style.position = 'absolute';
+                    bgLayer.style.height = '100%';
+                } else {
+                    bgLayer.style.position = 'fixed';
+                    bgLayer.style.height = '100vh';
+                }
+            }
+
+            // Обработка изменений ориентации
+            function handleOrientationChange() {
+                adjustBackground();
+                adjustFontSizes();
+            }
+
+            // Инициализация
+            adjustFontSizes();
+            adjustBackground();
+
+            // Слушатели событий
+            window.addEventListener('resize', handleOrientationChange);
+            window.addEventListener('orientationchange', handleOrientationChange);
+
+            // Поддержка редукции движения
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+            if (prefersReducedMotion.matches) {
+                document.body.classList.add('reduced-motion');
+            }
+
+            // Адаптация для тач-устройств
+            if ('ontouchstart' in window || navigator.maxTouchPoints) {
+                document.body.classList.add('touch-device');
+
+                // Увеличение времени задержки для hover-эффектов
+                const hoverElements = document.querySelectorAll('.home-button, .logo-link');
+                hoverElements.forEach(el => {
+                    el.style.transitionDelay = '0.1s';
+                });
+            }
+        });
+
+        // Динамическая загрузка фонового изображения
+        window.addEventListener('load', function() {
+            const bgImage = document.querySelector('.bg-image');
+            if (bgImage.complete) {
+                bgImage.style.opacity = '1';
+            } else {
+                bgImage.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                    this.style.transition = 'opacity 0.5s ease';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

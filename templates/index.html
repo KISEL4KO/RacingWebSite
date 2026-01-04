@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generated Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset и базовые стили */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      position: relative;
+      min-height: 100vh;
+      background-color: #000;
+    }
+
+    /* CSS для section:Header */
+    #section-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .site-header {
+      height: 64px;
+      background-color: rgba(31, 30, 30, 0.78);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: height 0.3s ease;
+    }
+
+    .header-container {
+      max-width: 1440px;
+      width: 100%;
+      padding: 0 clamp(20px, 4vw, 40px);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .partner-logos {
+      display: flex;
+      align-items: center;
+      gap: clamp(15px, 2vw, 25px);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .partner-logos img {
+      height: auto;
+      max-width: 100%;
+      transition: transform 0.3s ease;
+    }
+
+    .partner-logos img:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-f1 {
+      width: clamp(80px, 8vw, 117px);
+    }
+    .logo-wec {
+      width: clamp(55px, 5.5vw, 80px);
+    }
+    .logo-wrc {
+      width: clamp(65px, 6.7vw, 97px);
+    }
+
+    /* CSS для section:Hero */
+    #section-hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      /* Изменение прозрачности фона на 90% */
+      opacity: 0.9;
+      filter: brightness(0.8);
+      transition: transform 0.5s ease;
+    }
+
+    #section-hero:hover .bg-image {
+      transform: scale(1.02);
+    }
+
+    .bg-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.6) 50%,
+        rgba(0, 0, 0, 0.9) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: clamp(120px, 15vh, 350px) clamp(20px, 4vw, 40px) clamp(100px, 12vh, 200px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(36px, 5.5vw, 80px);
+      line-height: 1.1;
+      color: #ffffff;
+      text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+      margin: 0 0 clamp(30px, 4vh, 60px) clamp(0px, 3vw, 40px);
+      max-width: min(800px, 90%);
+      letter-spacing: -0.5px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-cta {
+      margin-left: clamp(20px, 7vw, 100px);
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: clamp(180px, 15.5vw, 224px);
+      height: clamp(55px, 4.8vw, 69px);
+      background-color: #891010;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 60px;
+      font-size: clamp(16px, 1.4vw, 20px);
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(137, 16, 16, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary:hover {
+      background-color: #a61515;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(137, 16, 16, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+
+    .btn-primary:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+
+    /* CSS для section:Footer */
+    #section-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .site-footer {
+      height: clamp(70px, 5.8vh, 84px);
+      background-color: rgba(52, 51, 51, 0.78);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: height 0.3s ease;
+    }
+
+    .footer-container {
+      max-width: 1440px;
+      width: 100%;
+      padding: 0 clamp(15px, 2vw, 20px);
+    }
+
+    .footer-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(15px, 3.5vw, 50px);
+      flex-wrap: wrap;
+      padding: 10px 0;
+    }
+
+    .footer-logos img {
+      height: auto;
+      max-width: 100%;
+      transition: all 0.3s ease;
+      filter: grayscale(0.2);
+    }
+
+    .footer-logos img:hover {
+      transform: scale(1.05);
+      filter: grayscale(0);
+    }
+
+    .logo-pirelli { width: clamp(100px, 12.8vw, 184px); }
+    .logo-fia { width: clamp(30px, 3.4vw, 49px); }
+    .logo-mercedes { width: clamp(90px, 10.7vw, 154px); }
+    .logo-amg { width: clamp(80px, 9.9vw, 142px); }
+    .logo-ford { width: clamp(80px, 9.7vw, 140px); }
+
+    /* Анимации */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 1;
+      }
+      20% {
+        transform: scale(25, 25);
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(40, 40);
+      }
+    }
+
+    /* Медиа-запросы для различных устройств */
+    @media (max-width: 1024px) {
+      .hero-title {
+        margin-left: clamp(0px, 2vw, 20px);
+      }
+
+      .hero-cta {
+        margin-left: clamp(0px, 4vw, 50px);
+      }
+
+      .site-header, .site-footer {
+        backdrop-filter: blur(5px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      #section-header {
+        position: relative;
+      }
+
+      .site-header {
+        height: 56px;
+        justify-content: center;
+      }
+
+      .header-container {
+        justify-content: center;
+      }
+
+      .partner-logos {
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .hero-content {
+        align-items: center;
+        text-align: center;
+        padding-top: clamp(100px, 20vh, 150px);
+      }
+
+      .hero-title {
+        margin: 0 0 40px 0;
+        text-align: center;
+        max-width: 95%;
+      }
+
+      .hero-cta {
+        margin-left: 0;
+      }
+
+      #section-footer {
+        position: relative;
+        margin-top: auto;
+      }
+
+      .site-footer {
+        height: auto;
+        min-height: 70px;
+        padding: 15px 0;
+      }
+
+      .footer-logos {
+        gap: 20px 30px;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #section-hero {
+        flex: 1;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: clamp(28px, 8vw, 36px);
+        margin-bottom: 30px;
+      }
+
+      .btn-primary {
+        width: 160px;
+        height: 50px;
+        font-size: 16px;
+      }
+
+      .partner-logos {
+        gap: 15px;
+      }
+
+      .footer-logos {
+        gap: 15px 20px;
+      }
+    }
+
+    /* Поддержка ориентации */
+    @media (orientation: landscape) and (max-height: 600px) {
+      .hero-content {
+        padding-top: 100px;
+        padding-bottom: 80px;
+      }
+
+      .hero-title {
+        font-size: clamp(32px, 4vw, 50px);
+        margin-bottom: 30px;
+      }
+
+      .site-header {
+        height: 50px;
+      }
+
+      .site-footer {
+        height: 50px;
+      }
+    }
+
+    /* Поддержка темной/светлой темы */
+    @media (prefers-color-scheme: light) {
+      .bg-overlay {
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0.4) 50%,
+          rgba(0, 0, 0, 0.7) 100%
+        );
+      }
+    }
+
+    /* Улучшения для доступности */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Поддержка touch устройств */
+    @media (hover: none) and (pointer: coarse) {
+      .btn-primary:hover {
+        transform: none;
+      }
+
+      .partner-logos img:hover,
+      .footer-logos img:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section id="section-header">
+    <header class="site-header">
+      <div class="header-container">
+        <div class="partner-logos">
+          <!-- Замените пути на ваши актуальные пути к изображениям -->
+          <a href="/f1"><img src="/static/images/ddc51e3608407ccb78a47922c99ed5f70eb871f3.png" alt="F1 Logo" class="logo-f1"></a>
+          <a href="/wec"><img src="/static/images/bf6d629fbecbf1dbeebdcc09244586864459a019.png" alt="WEC Logo" class="logo-wec"></a>
+          <a href="/wrc"><img src="/static/images/5c6f4e9d8af28404fc2546dc82f04456e441817e.png" alt="WRC Logo" class="logo-wrc"></a>
+        </div>
+      </div>
+    </header>
+  </section>
+
+  <section id="section-hero">
+    <div class="hero-background">
+      <!-- Замените путь на ваш актуальный путь к фоновому изображению -->
+      <video class="bg-image" autoplay muted loop playsinline>
+    <source src="/static/images/bg.mp4" type="video/mp4">
+</video>
+      <div class="bg-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">For Those Who<br>Live and Breathe<br>Racing</h1>
+      <div class="hero-cta">
+        <a href="/about" class="btn-primary">Read more</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="section-footer">
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-logos">
+          <a href="https://www.pirelli.ru/"><img src="/static/images/3d2147ec00ef97ddf899d73e5786cd302de92ff4.png" alt="Pirelli" class="logo-pirelli" ></a>
+          <a href="https://www.fia.com/"><img src="/static/images/483b2d978bc3d7b5166466705f04f80a4cfc511b.png" alt="FIA" class="logo-fia"></a>
+          <a href="https://www.mercedesamgf1.com/"><img src="/static/images/638083189e6d89a6f457f9b410b2a66971181274.png" alt="Mercedes" class="logo-mercedes"></a>
+          <a href="https://www.redbullracing.com/"><img src="/static/images/2c067e1ead0cb446e4916513fdfd6eeb6d311423.png" alt="Red bull" class="logo-amg"></a>
+          <a href="https://www.fordracing.com/"><img src="/static/images/2dc22d21b2bc0aa09b57311a17ef5533f590d159.png" alt="Ford " class="logo-ford"></a>
+        </div>
+      </div>
+    </footer>
+  </section>
+
+  <script>
+    // Динамическая адаптация для различных устройств
+    document.addEventListener('DOMContentLoaded', function() {
+      // Адаптивная высота заголовка и футера
+      function adjustHeights() {
+        const viewportHeight = window.innerHeight;
+        const viewportWidth = window.innerWidth;
+
+        // Адаптация для мобильных устройств
+        if (viewportWidth <= 768) {
+          document.querySelector('.site-header').style.height = Math.max(50, viewportHeight * 0.07) + 'px';
+          document.querySelector('.site-footer').style.minHeight = Math.max(60, viewportHeight * 0.08) + 'px';
+        } else {
+          document.querySelector('.site-header').style.height = Math.max(64, viewportHeight * 0.08) + 'px';
+          document.querySelector('.site-footer').style.height = Math.max(84, viewportHeight * 0.09) + 'px';
+        }
+
+        // Адаптация размера шрифта для очень маленьких экранов
+        if (viewportWidth < 360) {
+          document.querySelector('.hero-title').style.fontSize = '24px';
+        }
+      }
+
+      // Адаптация отступов для разных соотношений сторон
+      function adjustPadding() {
+        const heroContent = document.querySelector('.hero-content');
+        const viewportHeight = window.innerHeight;
+        const viewportWidth = window.innerWidth;
+
+        if (viewportHeight < 500) {
+          heroContent.style.paddingTop = '80px';
+          heroContent.style.paddingBottom = '60px';
+        } else if (viewportHeight < 700) {
+          heroContent.style.paddingTop = '120px';
+          heroContent.style.paddingBottom = '80px';
+        }
+
+        // Горизонтальная ориентация на мобильных
+        if (viewportWidth > viewportHeight && viewportWidth <= 768) {
+          heroContent.style.paddingTop = '60px';
+          heroContent.style.paddingBottom = '40px';
+        }
+      }
+
+      // Обработка изменения ориентации
+      function handleOrientationChange() {
+        adjustHeights();
+        adjustPadding();
+      }
+
+      // Инициализация
+      adjustHeights();
+      adjustPadding();
+
+      // Обработчики событий
+      window.addEventListener('resize', function() {
+        adjustHeights();
+        adjustPadding();
+      });
+
+      window.addEventListener('orientationchange', function() {
+        setTimeout(function() {
+          adjustHeights();
+          adjustPadding();
+        }, 100);
+      });
+
+      // Плавный скролл для ссылок
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Эффект параллакса для фона
+      window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const heroSection = document.querySelector('#section-hero');
+        const bgImage = document.querySelector('.bg-image');
+
+        if (bgImage) {
+          const rate = scrolled * -0.3;
+          bgImage.style.transform = `translateY(${rate}px) scale(1.02)`;
+        }
+
+        // Изменение прозрачности хедера при скролле
+        const header = document.querySelector('#section-header');
+        if (scrolled > 100) {
+          header.style.backgroundColor = 'rgba(31, 30, 30, 0.95)';
+        } else {
+          header.style.backgroundColor = 'rgba(31, 30, 30, 0.78)';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

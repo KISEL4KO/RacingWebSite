@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Racing Hub</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <style id="sections-styles">
+    :root {
+      --primary-color: #1f1e1e;
+      --secondary-color: #e10600;
+      --text-light: #ffffff;
+      --text-dark: #1a1a1a;
+      --spacing-xs: 8px;
+      --spacing-sm: 16px;
+      --spacing-md: 24px;
+      --spacing-lg: 32px;
+      --spacing-xl: 48px;
+      --spacing-xxl: 64px;
+      --border-radius: 12px;
+      --header-height: 64px;
+      --header-height-mobile: 56px;
+      --container-max: 1440px;
+      --container-padding: clamp(16px, 4vw, 40px);
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-dark);
+      background-color: #f8f9fa;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 var(--container-padding);
+      width: 100%;
+    }
+
+    /* CSS для section:Header */
+    #section-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      background: linear-gradient(to bottom, rgba(31, 30, 30, 0.95) 0%, rgba(31, 30, 30, 0.85) 100%);
+      backdrop-filter: blur(10px);
+    }
+
+    #section-header.scrolled {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .site-header {
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .header-container {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .partner-logos {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 2vw, 25px);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .partner-logos img {
+      height: auto;
+      max-width: 100%;
+      transition: all 0.3s ease;
+      filter: brightness(1) contrast(1);
+      will-change: transform;
+    }
+
+    .partner-logos img:hover {
+      transform: translateY(-2px) scale(1.05);
+      filter: brightness(1.1) contrast(1.1);
+    }
+
+    .logo-f1 {
+      width: clamp(70px, 7vw, 120px);
+      min-width: 70px;
+    }
+    .logo-wec {
+      width: clamp(50px, 5vw, 85px);
+      min-width: 50px;
+    }
+    .logo-wrc {
+      width: clamp(60px, 6vw, 100px);
+      min-width: 60px;
+    }
+
+    /* CSS for section section:NewsSchedule */
+    #section-news-schedule {
+      padding-top: calc(var(--header-height) + var(--spacing-xl));
+      padding-bottom: var(--spacing-xxl);
+    }
+
+    .news-schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: clamp(24px, 3vw, 50px);
+      align-items: start;
+    }
+
+    @media (min-width: 768px) {
+      .news-schedule-grid {
+        grid-template-columns: 1.2fr 1fr;
+      }
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      margin-bottom: var(--spacing-lg);
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    .text-uppercase {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .placeholder-box {
+      background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .placeholder-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .news-image {
+      aspect-ratio: 16/9;
+      width: 100%;
+      min-height: 300px;
+    }
+
+    .schedule-column {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(40px, 5vw, 80px);
+    }
+
+    .schedule-image {
+      aspect-ratio: 16/9;
+      width: 100%;
+      min-height: 200px;
+    }
+
+    .results-image {
+      aspect-ratio: 16/9;
+      width: 100%;
+      min-height: 200px;
+    }
+
+    /* CSS for section section:Watch */
+    #section-watch {
+      padding: var(--spacing-xxl) 0;
+      background-color: #f0f2f5;
+    }
+
+    .watch-header {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .watch-image {
+      aspect-ratio: 16/9;
+      width: 100%;
+      max-height: 600px;
+    }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 767px) {
+      :root {
+        --header-height: 56px;
+      }
+
+      .site-header {
+        height: var(--header-height-mobile);
+      }
+
+      #section-news-schedule {
+        padding-top: calc(var(--header-height-mobile) + var(--spacing-lg));
+      }
+
+      .news-schedule-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .partner-logos {
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .section-title {
+        text-align: center;
+      }
+
+      .watch-header {
+        justify-content: center;
+      }
+
+      .placeholder-box {
+        margin: 0 auto;
+        max-width: 100%;
+      }
+    }
+
+    /* Tablet-specific adjustments */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .news-schedule-grid {
+        gap: 30px;
+      }
+
+      .schedule-column {
+        gap: 40px;
+      }
+    }
+
+    /* Large desktop adjustments */
+    @media (min-width: 1440px) {
+      .container {
+        padding: 0;
+      }
+    }
+
+    /* Orientation-specific adjustments */
+    @media (orientation: landscape) and (max-height: 600px) {
+      .site-header {
+        height: 48px;
+      }
+
+      #section-news-schedule {
+        padding-top: 60px;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+
+    /* High-resolution displays */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .partner-logos img {
+        filter: brightness(1) contrast(1);
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      #section-header {
+        position: static;
+        background: none;
+      }
+
+      .placeholder-box {
+        border: 1px solid #ddd;
+      }
+    }
+  </style>
+  <script src="global.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Header scroll effect
+      const header = document.getElementById('section-header');
+      const siteHeader = document.querySelector('.site-header');
+
+      function updateHeader() {
+        const scrollPosition = window.scrollY;
+        const isMobile = window.innerWidth <= 767;
+
+        if (scrollPosition > 50) {
+          header.classList.add('scrolled');
+          if (isMobile) {
+            siteHeader.style.height = '48px';
+          } else {
+            siteHeader.style.height = '56px';
+          }
+        } else {
+          header.classList.remove('scrolled');
+          if (isMobile) {
+            siteHeader.style.height = 'var(--header-height-mobile)';
+          } else {
+            siteHeader.style.height = 'var(--header-height)';
+          }
+        }
+      }
+
+      window.addEventListener('scroll', updateHeader);
+      window.addEventListener('resize', updateHeader);
+      updateHeader();
+
+      // Lazy loading for images
+      const images = document.querySelectorAll('img');
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            imageObserver.unobserve(img);
+          }
+        });
+      }, {
+        rootMargin: '50px 0px',
+        threshold: 0.1
+      });
+
+      images.forEach(img => {
+        if (img.dataset.src) {
+          imageObserver.observe(img);
+        }
+      });
+
+      // Touch optimization
+      document.addEventListener('touchstart', function() {}, {passive: true});
+
+      // Performance optimization
+      let resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          // Update any layout-dependent calculations here
+        }, 250);
+      });
+    });
+  </script>
+</head>
+<body>
+  <section id="section-header">
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="partner-logos">
+          <a href="/f1"><img src="/static/images/ddc51e3608407ccb78a47922c99ed5f70eb871f3.png"
+               alt="Formula 1 Logo"
+               class="logo-f1"
+               data-src="/static/images/ddc51e3608407ccb78a47922c99ed5f70eb871f3.png"></a>
+          <a href="/wec"><img src="/static/images/bf6d629fbecbf1dbeebdcc09244586864459a019.png"
+               alt="World Endurance Championship Logo"
+               class="logo-wec"
+               data-src="/static/images/bf6d629fbecbf1dbeebdcc09244586864459a019.png"></a>
+          <a href="wrc"><img src="/static/images/5c6f4e9d8af28404fc2546dc82f04456e441817e.png"
+               alt="World Rally Championship Logo"
+               class="logo-wrc"
+               data-src="/static/images/5c6f4e9d8af28404fc2546dc82f04456e441817e.png"></a>
+        </div>
+      </div>
+    </header>
+  </section>
+
+  <section id="section-news-schedule">
+    <div class="container">
+      <div class="news-schedule-grid">
+        <!-- Left Column: News -->
+        <div class="news-column">
+          <h2 class="section-title">News</h2>
+          <div class="placeholder-box news-image" role="img" aria-label="Latest racing news"></div>
+        </div>
+
+        <!-- Right Column: Schedule & Results -->
+        <div class="schedule-column">
+          <div class="schedule-block">
+            <h2 class="section-title text-uppercase">SCHEDULE</h2>
+            <div class="placeholder-box schedule-image" role="img" aria-label="Race schedule"></div>
+          </div>
+
+          <div class="results-block">
+            <h2 class="section-title">Latest results</h2>
+            <div class="placeholder-box results-image" role="img" aria-label="Latest race results"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="section-watch">
+    <div class="container">
+      <div class="watch-header">
+        <h2 class="section-title">Watch</h2>
+      </div>
+      <div class="placeholder-box watch-image" role="img" aria-label="Watch racing content">
+          <iframe class="placeholder-box watch-image" src={{video}} style="border: none;" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+      </div>
+    </div>
+  </section>
+</body>
+</html>
