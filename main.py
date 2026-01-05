@@ -257,7 +257,7 @@ def f1_watch():
 # Функция для получения ID последнего видео WEC (FIA World Endurance Championship) с YouTube
 def wec_watch():
     try:
-        youtube_API_KEY = "AIzaSyBZ3-3E-FWnUXvXalL_vJB5hz-S8m23zv0"  # Ключ API YouTube
+        youtube_API_KEY = ""  # Ключ API YouTube
         # Формирование URL запроса к YouTube API
         # Параметры запроса:
         # - part=snippet: запрашиваем основную информацию о видео
