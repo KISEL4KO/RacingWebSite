@@ -114,6 +114,69 @@ def get_f1_schedule_wiki():
     except Exception as e:
         print(f"❌ Ошибка при парсинге расписания: {e}")
         return []
+
+@cache_data
+def wec_schedule():
+    """
+    Функция для парсинга расписания гонок с сайта FIA WEC (World Endurance Championship).
+
+    Returns:
+        dict: Словарь, где ключи - названия гонок, значения - информация о датах проведения
+    """
+
+    # 1. Отправляем HTTP GET запрос на сайт FIA WEC
+    fiawec_request = requests.get('https://www.fiawec.com/')
+
+    # 2. Создаем объект BeautifulSoup для парсинга HTML
+    #    Используем парсер 'lxml' (требует установки библиотеки lxml)
+    bs = BeautifulSoup(fiawec_request.text, 'lxml')
+
+    # 3. Находим все div-элементы с классом 'infos-full'
+    #    В этих элементах содержится информация о гонках
+    wrc_data = bs.find_all('div', class_='infos-full')
+
+    # 4. Создаем пустой словарь для хранения данных о гонках
+    racings = {}
+
+    # 5. Проходим по всем найденным элементам с информацией о гонках
+    #    enumerate(wrc_data, 1) - нумеруем элементы начиная с 1, а не с 0
+    for i, item in enumerate(wrc_data, 1):
+
+        # 6. Пропускаем первые 8 элементов (i >= 9)
+        #    Это может быть связано с тем, что первые 8 элементов - не гонки,
+        #    а другая информация на сайте
+        if i >= 9:
+
+            # 7. Получаем текстовое содержимое элемента и разбиваем на отдельные слова
+            #    split() разделяет строку по пробелам, табам и переносам строк
+            it = item.text.split()
+
+            # 8. Проверяем наличие ключевых слов 'From' и 'Race' в тексте
+            #    Это указывает на то, что элемент содержит информацию о гонке
+            if 'From' in it and 'Race' in it:
+                # 9. Находим индексы (позиции) ключевых слов в списке слов
+                ind_event = it.index('From')  # Индекс слова 'From' (начало дат)
+                ind_race = it.index('Race')  # Индекс слова 'Race' (окончание блока информации)
+
+                # 10. Извлекаем название гонки:
+                #     - Берем все слова от начала до слова 'From'
+                #     - Объединяем их в одну строку через пробел
+                name_parts = it[:ind_event]  # Срез: от начала до 'From'
+                name = ' '.join(name_parts)  # Объединяем слова в строку
+
+                # 11. Извлекаем информацию о датах проведения:
+                #     - Берем слова от 'From' до 'Race'
+                #     - Объединяем их в одну строку через пробел
+                info_parts = it[ind_event:ind_race]  # Срез: от 'From' до 'Race'
+                info = ' '.join(info_parts)  # Объединяем слова в строку
+
+                # 12. Добавляем данные в словарь:
+                #     - Ключ: название гонки
+                #     - Значение: информация о датах
+                racings[name] = info
+
+    # 13. Возвращаем словарь с расписанием гонок
+    return racings
 @cache_data
 def get_last_race_results():
     """Получение результатов последней гонки Ф1 2025"""
@@ -358,7 +421,9 @@ def wrc():
 def wec():
     video_id = wec_watch()
     url = f'https://www.youtube.com/embed/{video_id}' if video_id else ""
-    return render_template("wec.html", video=url)
+    return render_template("wec.html",
+                           video=url,
+                           schedule=wec_schedule())
 
 
 # Маршрут для отдельной страницы расписания
